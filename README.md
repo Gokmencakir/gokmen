@@ -1,31 +1,42 @@
-# Web Sitesi Projesi
+# Fatoş & Gamze Beauty — Web Sitesi
 
-Kurumsal / işletme tanıtımı için renkli, gradient ağırlıklı, tek sayfa bir web sitesi.
+Şirinevler'deki **Fatoş & Gamze Beauty** güzellik salonu için hazırlanan
+tek sayfa (single-page) tanıtım ve randevu sitesi.
 
-## Teknoloji
-- Saf HTML / CSS / JavaScript
-- Bootstrap 5 (CDN)
-- Başlangıç şablonu: [Start Bootstrap - New Age](https://startbootstrap.com/theme/new-age) (MIT lisanslı)
+## Özellikler
 
-## Yapı
-- `index.html` — Ana sayfa (hero, özellikler, CTA, iletişim modalı)
-- `css/styles.css` — Tüm stiller (Bootstrap dahil, derlenmiş)
-- `js/scripts.js` — Etkileşim scriptleri
-- `assets/` — Görseller, ikonlar, favicon
+- **Saf HTML/CSS/JS** — build aracı yok, çerçeve yok. `index.html` tek başına çalışır.
+- **Tamamen kendine yeten (self-contained)** — dış CDN, dış font veya dış görsel bağımlılığı yok; internetsiz de açılır.
+- **Mobil uyumlu (responsive)** — telefon, tablet ve masaüstünde düzgün görünür.
+- **Marka renkleri** — logodaki altın + pembe/mor/turuncu gradient estetiği.
+- **WhatsApp entegrasyonu** — tüm "Randevu Al" butonları ve yüzen buton `wa.me/905536280406` numarasına gider.
+- **Instagram bağlantısı** — `@fatos.gamzebeauty`.
 
-## Yerelde Çalıştırma
-`index.html` dosyasını doğrudan tarayıcıda açabilir veya basit bir sunucu başlatabilirsiniz:
+## Bölümler
 
-```bash
-python3 -m http.server 8000
-# Tarayıcıda: http://localhost:8000
-```
+Üst bilgi çubuğu · Menü · Hero · İstatistikler · Hizmetler (9 adet) ·
+Hakkımızda · Galeri · Müşteri Yorumları · İletişim & Harita · Randevu bandı · Footer
 
-## Sonraki Adımlar
-- [ ] Marka adı, logo ve renk paleti güncellenecek
-- [ ] Metin içerikleri (başlık, açıklamalar, özellikler) Türkçeleştirilecek ve firmaya göre düzenlenecek
-- [ ] Görseller kendi içeriğimizle değiştirilecek
-- [ ] İletişim formu bağlanacak
+## Hizmetler
+
+Lazer Epilasyon · Cilt Bakımı · Kalıcı Makyaj · Microblading · Pudralama Kaş ·
+Dipliner · Kirpik Lifting · Erkek Kaş Tasarımı · Medikal Cilt Bakımı
+
+## Nasıl açılır
+
+`index.html` dosyasına çift tıklamanız yeterli — tarayıcıda açılır.
+Yayına almak için dosyaları herhangi bir statik barındırma servisine
+(GitHub Pages, Netlify, Vercel vb.) yükleyebilirsiniz.
+
+## Yapılacaklar / Kişiselleştirme
+
+- [ ] Galeri bölümüne gerçek uygulama fotoğrafları
+- [ ] "Hakkımızda" görseline salon/ekip fotoğrafı
+- [ ] Müşteri yorumlarını gerçek yorumlarla değiştirme
+- [ ] Çalışma saatlerini güncelleme
+- [ ] Adresi tam ve doğru haliyle teyit etme
 
 ## Lisans
-Şablon MIT lisanslıdır (bkz. `LICENSE`), ticari kullanım dahil serbesttir.
+
+Kod MIT lisanslıdır (bkz. `LICENSE`). Marka adı, logo ve içerik
+Fatoş & Gamze Beauty'ye aittir.
