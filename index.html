@@ -81,12 +81,13 @@
         .burger svg{width:28px;height:28px}
 
         /* ---------- Hero ---------- */
-        .hero{position:relative;padding:96px 0 110px;text-align:center;overflow:hidden}
-        .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0}
+        .hero{position:relative;padding:96px 0 110px;text-align:center;overflow:hidden;background:var(--bg)}
+        #hero-wave{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
+        .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.32;z-index:1;pointer-events:none}
         .hero::before{width:520px;height:520px;background:radial-gradient(circle,var(--pink),transparent 65%);top:-160px;left:-120px}
         .hero::after{width:560px;height:560px;background:radial-gradient(circle,var(--purple),transparent 65%);bottom:-220px;right:-140px}
-        .hero .glow-gold{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.28;background:radial-gradient(circle,var(--gold),transparent 65%);top:20%;left:50%;transform:translateX(-50%);z-index:0}
-        .hero .wrap{position:relative;z-index:1}
+        .hero .glow-gold{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.14;background:radial-gradient(circle,var(--gold),transparent 65%);top:20%;left:50%;transform:translateX(-50%);z-index:1;pointer-events:none}
+        .hero .wrap{position:relative;z-index:2}
         .hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.08;margin:1.1rem 0 .4rem}
         .hero .lead{max-width:640px;margin:1.1rem auto 0;color:var(--muted);font-size:1.08rem}
         .hero .cta-row{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-top:2.1rem}
@@ -277,6 +278,7 @@
     <!-- HERO -->
     <a id="top"></a>
     <section class="hero" id="anasayfa">
+        <canvas id="hero-wave" aria-hidden="true"></canvas>
         <div class="glow-gold"></div>
         <div class="wrap">
             <div class="eyebrow">Şirinevler'de Güzelliğin Adresi</div>
@@ -625,6 +627,151 @@
         document.querySelectorAll('nav.links a').forEach(function(a){
             a.addEventListener('click',function(){if(window.innerWidth<=640){document.querySelector('nav.links').style.display='none';}});
         });
+    </script>
+
+    <!-- Hero canlı dalga arka planı (Breathe efektinden uyarlandı, salon renkleri) -->
+    <script>
+    (function(){
+        const cv = document.getElementById('hero-wave');
+        if(!cv) return;
+        const hero = document.getElementById('anasayfa');
+        const ctx = cv.getContext('2d');
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+        function resize(){
+            const r = hero.getBoundingClientRect();
+            W = Math.max(1, r.width); H = Math.max(1, r.height);
+            cv.width = W * DPR; cv.height = H * DPR;
+            cv.style.width = W + 'px'; cv.style.height = H + 'px';
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        }
+        window.addEventListener('resize', resize); resize();
+
+        // İmleç durumu
+        let mx = .5, my = .5, rmx = .5, rmy = .5, pmx = .5, pmy = .5, mvx = 0, mvy = 0;
+        let dragEnergy = 0, clickImpulse = 0, dragging = false;
+        let ripples = [];
+        function pointer(clientX, clientY){
+            const r = cv.getBoundingClientRect();
+            pmx = mx; pmy = my;
+            mx = Math.min(1, Math.max(0, (clientX - r.left) / (r.width||1)));
+            my = Math.min(1, Math.max(0, (clientY - r.top) / (r.height||1)));
+            mvx = (mx - pmx) * 60; mvy = (my - pmy) * 60;
+            if(dragging){
+                dragEnergy = Math.min(dragEnergy + Math.hypot(mvx, mvy) * 0.04, 1.5);
+                if(Math.random() < 0.08){ ripples.push({x:mx,y:my,t:0,s:0.4+dragEnergy*0.3}); if(ripples.length>8) ripples.shift(); }
+            }
+        }
+        window.addEventListener('mousemove', e => pointer(e.clientX, e.clientY), {passive:true});
+        window.addEventListener('mousedown', e => { dragging = true; clickImpulse = 1; const r = cv.getBoundingClientRect(); ripples.push({x:(e.clientX-r.left)/(r.width||1), y:(e.clientY-r.top)/(r.height||1), t:0, s:1}); if(ripples.length>6) ripples.shift(); }, {passive:true});
+        window.addEventListener('mouseup', () => dragging = false);
+        window.addEventListener('touchmove', e => { const t = e.touches[0]; if(t) pointer(t.clientX, t.clientY); }, {passive:true});
+
+        // Sadece görünürken çiz (performans)
+        let visible = true;
+        if('IntersectionObserver' in window){
+            new IntersectionObserver(es => { visible = es[0].isIntersecting; }, {threshold:0}).observe(hero);
+        }
+
+        // Dalga dolgu katmanları (salon renk ailesi: turuncu → pembe → mor)
+        // [yüzde-y, genlik, frekans, hız, ton(hue), doygunluk, açıklık, opaklık]
+        const FILLS = [
+            [0.86, 120, 0.78, 0.000082,  26, 82,  9, 0.52],
+            [0.80,  98, 1.02, 0.000115, 340, 72, 11, 0.44],
+            [0.74,  78, 1.28, 0.000152, 322, 66, 13, 0.37],
+            [0.68,  62, 1.58, 0.000192, 300, 62, 15, 0.30],
+            [0.62,  48, 1.98, 0.000238, 285, 58, 17, 0.24],
+            [0.57,  38, 2.48, 0.000285, 278, 55, 19, 0.18],
+            [0.52,  27, 3.20, 0.000338, 272, 52, 21, 0.13]
+        ];
+        // İmlece güçlü tepki veren ince çizgiler
+        const LINES = [
+            [0.66, 0.060, 1.28, 0.000048, 0.20, 1.0],
+            [0.56, 0.040, 2.00, 0.000065, 0.15, 0.7],
+            [0.73, 0.046, 0.98, 0.000036, 0.13, 0.6],
+            [0.49, 0.026, 2.70, 0.000082, 0.11, 0.5],
+            [0.61, 0.066, 0.80, 0.000033, 0.16, 0.9]
+        ];
+
+        let bs = 0, last = 0;
+        function frame(ts){
+            requestAnimationFrame(frame);
+            if(!visible || W < 2){ return; }
+            const dt = Math.min(ts - last, 50); last = ts;
+            // yumuşatma + sönümleme
+            rmx += (mx - rmx) * 0.05; rmy += (my - rmy) * 0.05;
+            mvx *= 0.88; mvy *= 0.88;
+            clickImpulse *= 0.94; dragEnergy *= 0.97;
+            for(let i = ripples.length-1; i>=0; i--){ ripples[i].t += 0.016; if(ripples[i].t > 2.5) ripples.splice(i,1); }
+            // yavaş nefes gibi salınım
+            bs = reduce ? 0.25 : (0.5 + 0.5 * Math.sin(ts * 0.00068)) * 0.34;
+            const t = ts;
+
+            ctx.clearRect(0, 0, W, H);
+            // koyu zemin
+            ctx.fillStyle = '#0e0c11'; ctx.fillRect(0, 0, W, H);
+            // merkez sıcak parıltı
+            let g = ctx.createRadialGradient(W/2, H*0.62, 0, W/2, H*0.62, W*0.72);
+            g.addColorStop(0, 'rgba(255,138,92,'+(0.06 + bs*0.14)+')');
+            g.addColorStop(0.42, 'rgba(168,85,247,'+(0.04 + bs*0.08)+')');
+            g.addColorStop(1, 'transparent');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            // imleci takip eden parıltı
+            const gx = W * (rmx + mvx*0.02), gy = H * (rmy + mvy*0.02);
+            let g2 = ctx.createRadialGradient(gx, gy, 0, gx, gy, W*(0.42 + dragEnergy*0.18));
+            g2.addColorStop(0, 'rgba(255,106,162,'+(0.05 + bs*0.10 + dragEnergy*0.07)+')');
+            g2.addColorStop(1, 'transparent');
+            ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+
+            // dolgu dalgaları
+            FILLS.forEach(function(L, i){
+                const yc=L[0], amp=L[1]*(0.62+0.38*bs), fm=L[2], sp=L[3], hue=L[4], sat=L[5], lit=L[6], op=L[7];
+                const yB = H*yc + H*(rmy-0.5)*0.04;
+                ctx.beginPath();
+                for(let x=0; x<=W; x+=5){
+                    const nx = x/W, ph = t*sp;
+                    const mouseWarp = (rmx-0.5)*amp*0.5*Math.sin(nx*Math.PI*2 + 0.5);
+                    const dragWarp = dragEnergy*amp*0.3*Math.sin(nx*Math.PI*3 + t*0.003);
+                    let rip = 0;
+                    for(const r of ripples){ const dx=nx-r.x, wf=r.t*0.6, sp2=0.12+r.t*0.2; rip += r.s*amp*0.22*Math.exp(-Math.pow(Math.abs(dx)-wf,2)/(sp2*sp2))*Math.exp(-r.t*0.9)*Math.sin((Math.abs(dx)-wf)*18); }
+                    let y = yB + mouseWarp + dragWarp + rip
+                        + Math.sin(nx*Math.PI*2*fm + ph*7)*amp
+                        + Math.sin(nx*Math.PI*3*fm*0.73 + ph*5.2 + i)*amp*0.4;
+                    x===0 ? ctx.moveTo(0,y) : ctx.lineTo(x,y);
+                }
+                ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
+                ctx.fillStyle = 'hsla('+hue+','+sat+'%,'+(lit + bs*15)+'%,'+(op + bs*0.1)+')';
+                ctx.fill();
+            });
+
+            // imlece tepki veren ince çizgiler
+            const mxB = rmx-0.5, myB = rmy-0.5;
+            LINES.forEach(function(L, li){
+                const yc=L[0], a=L[1], fm=L[2], sp=L[3], op=L[4], w=L[5];
+                const yB = H*yc + myB*H*0.18*(1-li*0.08);
+                const ampBoost = 1 + Math.abs(mxB)*1.8 + dragEnergy*1.2 + Math.abs(myB)*0.6;
+                const amp = H*a*(0.52+0.48*bs)*ampBoost;
+                const fmMod = fm*(1 + mxB*0.5 + mvx*0.04), ph = t*sp;
+                ctx.beginPath();
+                for(let x=0; x<=W; x+=5){
+                    const nx=x/W;
+                    let y = yB
+                        + Math.sin(nx*Math.PI*2*fmMod + ph*6 + mxB*nx*3)*amp
+                        + Math.sin(nx*Math.PI*4*fmMod*0.6 + ph*3.8 + myB*2)*amp*0.35
+                        + mxB*amp*0.5*Math.sin(nx*Math.PI*1.5 + li)
+                        + mvx*amp*0.06*Math.sin(nx*Math.PI*2.5 + ph*2);
+                    for(const r of ripples){ const dx=nx-r.x, wf=r.t*0.55, sp2=0.1+r.t*0.15; y += r.s*amp*0.28*Math.exp(-Math.pow(Math.abs(dx)-wf,2)/(sp2*sp2))*Math.exp(-r.t)*Math.sin((Math.abs(dx)-wf)*20); }
+                    x===0 ? ctx.moveTo(0,y) : ctx.lineTo(x,y);
+                }
+                const prox = Math.exp(-Math.abs(rmy-yc)*3)*0.4;
+                ctx.strokeStyle = 'rgba(246,222,205,'+((op+prox)*(0.4+0.5*bs))+')';
+                ctx.lineWidth = w*(1 + prox*1.5);
+                ctx.stroke();
+            });
+        }
+        requestAnimationFrame(frame);
+    })();
     </script>
 </body>
 </html>
