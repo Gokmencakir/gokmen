@@ -8,22 +8,23 @@
     <link rel="icon" href="assets/favicon.ico" />
     <style>
         :root{
-            --bg:#0e0c11;
-            --bg-soft:#17131d;
-            --panel:#1e1826;
-            --cream:#faf6f2;
-            --text:#efe9f2;
-            --muted:#b7abc2;
-            --gold:#e8c37a;
-            --gold-2:#d4af37;
-            --pink:#ff6aa2;
+            --bg:#fff6fa;            /* şeker beyazı, hafif pembe */
+            --bg-soft:#e9f9f8;       /* ferah cam göbeği tonu (alternatif bölümler) */
+            --panel:#ffffff;
+            --cream:#fff8f4;
+            --text:#2c2333;          /* koyu mürekkep — okunaklı */
+            --muted:#7c7086;
+            --gold:#c9922f;          /* aydınlık zeminde okunaklı altın */
+            --gold-2:#a9781f;
+            --pink:#ff5c9d;
             --purple:#a855f7;
-            --orange:#ff8a5c;
-            --line:rgba(232,195,122,.22);
+            --orange:#ff8a4c;
+            --aqua:#1fbdb6;          /* cam göbeği mavisi / turkuaz ferahlık */
+            --line:rgba(70,45,85,.12);
             --grad:linear-gradient(120deg,var(--orange),var(--pink) 40%,var(--purple) 80%);
-            --grad-text:linear-gradient(120deg,#ffb37a,#ff6aa2 45%,#c084fc);
+            --grad-text:linear-gradient(120deg,#ff7a2e,#ff3d86 45%,#9b47f0);
             --radius:18px;
-            --shadow:0 20px 60px -20px rgba(0,0,0,.65);
+            --shadow:0 22px 50px -24px rgba(120,60,120,.32);
             --font-body:"Segoe UI",Roboto,-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
             --font-display:Georgia,"Times New Roman",serif;
         }
@@ -58,16 +59,16 @@
 
         /* ---------- Top bar ---------- */
         .topbar{
-            background:linear-gradient(120deg,#1a1420,#241a2e);
+            background:linear-gradient(120deg,#ffedf5,#e6f7f7);
             border-bottom:1px solid var(--line);
             font-size:.82rem;color:var(--muted);
         }
         .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;height:40px;flex-wrap:wrap}
-        .topbar a:hover{color:var(--gold)}
+        .topbar a:hover{color:var(--pink)}
         .topbar .sep{opacity:.4;margin:0 .3rem}
 
         /* ---------- Nav ---------- */
-        header.nav{position:sticky;top:0;z-index:50;background:rgba(14,12,17,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,195,122,.12)}
+        header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
         header.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
         .brand{display:flex;align-items:center;gap:.7rem}
         .crown{width:34px;height:34px;flex:none}
@@ -83,7 +84,7 @@
         /* ---------- Hero ---------- */
         .hero{position:relative;padding:96px 0 110px;text-align:center;overflow:hidden;background:var(--bg)}
         #hero-wave{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
-        .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.32;z-index:1;pointer-events:none}
+        .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.2;z-index:1;pointer-events:none}
         .hero::before{width:520px;height:520px;background:radial-gradient(circle,var(--pink),transparent 65%);top:-160px;left:-120px}
         .hero::after{width:560px;height:560px;background:radial-gradient(circle,var(--purple),transparent 65%);bottom:-220px;right:-140px}
         .hero .glow-gold{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.14;background:radial-gradient(circle,var(--gold),transparent 65%);top:20%;left:50%;transform:translateX(-50%);z-index:1;pointer-events:none}
@@ -110,10 +111,10 @@
         /* ---------- Services ---------- */
         .grid-services{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 24px;align-items:stretch}
         /* ---------- 3D tilt hizmet kartları (Card Lab efekti, salon temasına uyarlandı) ---------- */
-        .ux-parent{position:relative;z-index:1;width:100%;max-width:400px;height:300px;margin-inline:auto;perspective:1000px;perspective-origin:50% 50%;filter:drop-shadow(0 24px 44px rgba(0,0,0,.5))}
+        .ux-parent{position:relative;z-index:1;width:100%;max-width:400px;height:300px;margin-inline:auto;perspective:1000px;perspective-origin:50% 50%;filter:drop-shadow(0 22px 40px rgba(150,90,150,.22))}
         .ux-parent:hover{z-index:6}
-        .ux-card{position:relative;height:100%;border-radius:40px;background:var(--ux-grad);transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,1,.36,1),box-shadow .55s ease;box-shadow:rgba(0,0,0,.28) 0 25px 25px -5px}
-        .ux-parent:hover .ux-card{transform:rotate3d(1,1,0,26deg);box-shadow:rgba(0,0,0,.4) 28px 44px 28px -34px,rgba(255,106,162,.18) 0 0 56px -10px}
+        .ux-card{position:relative;height:100%;border-radius:40px;background:var(--ux-grad);transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,1,.36,1),box-shadow .55s ease;box-shadow:rgba(150,90,150,.18) 0 25px 25px -5px}
+        .ux-parent:hover .ux-card{transform:rotate3d(1,1,0,26deg);box-shadow:rgba(150,90,150,.26) 28px 44px 28px -34px,rgba(255,92,157,.20) 0 0 56px -10px}
         .ux-glass{position:absolute;inset:8px;border-radius:44px;border-top-right-radius:100%;background:linear-gradient(0deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.86) 100%);transform:translate3d(0,0,25px);transform-style:preserve-3d;border-left:1px solid rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.75);transition:all .5s ease-in-out;pointer-events:none}
         .ux-logo{position:absolute;right:0;top:0;transform-style:preserve-3d;pointer-events:none;z-index:2}
         .ux-circle{display:block;position:absolute;aspect-ratio:1;border-radius:50%;top:0;right:0;background:var(--ux-orbit);box-shadow:rgba(100,100,111,.2) -10px 10px 24px 0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:all .5s ease-in-out}
@@ -141,7 +142,7 @@
             .ux-parent:hover .ux-circle:nth-child(2),.ux-parent:hover .ux-circle:nth-child(3),.ux-parent:hover .ux-circle:nth-child(4),.ux-parent:hover .ux-circle:nth-child(5){transform:inherit}
         }
         .card{
-            background:linear-gradient(160deg,var(--panel),#16121d);
+            background:linear-gradient(160deg,#ffffff,#fff2f7);
             border:1px solid rgba(232,195,122,.14);border-radius:var(--radius);
             padding:30px 26px;transition:.28s transform,.28s border-color,.28s box-shadow;
         }
@@ -168,7 +169,7 @@
 
         /* ---------- Gallery ---------- */
         .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:14px}
-        .gitem{border-radius:14px;border:1px solid var(--line);background:linear-gradient(160deg,var(--panel),#14101b);display:grid;place-items:center;color:var(--muted);font-size:.8rem;position:relative;overflow:hidden}
+        .gitem{border-radius:14px;border:1px solid var(--line);background:linear-gradient(160deg,#fdeef4,#f0e7fb);display:grid;place-items:center;color:var(--muted);font-size:.8rem;position:relative;overflow:hidden}
         .gitem::after{content:"";position:absolute;inset:0;background:var(--grad);opacity:.10}
         .gitem.tall{grid-row:span 2}
         .gitem span{position:relative;z-index:1;letter-spacing:.05em}
@@ -176,15 +177,15 @@
 
         /* ---------- Testimonials ---------- */
         .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-        .quote{background:linear-gradient(160deg,var(--panel),#16121d);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+        .quote{background:linear-gradient(160deg,#ffffff,#fff2f7);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
         .stars{color:var(--gold);letter-spacing:.15em;margin-bottom:.7rem}
         .quote p{color:var(--text);font-style:italic;margin-bottom:1rem}
         .quote .who{color:var(--muted);font-size:.88rem;font-weight:600}
 
         /* ---------- Contact ---------- */
         .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
-        .info-card{background:linear-gradient(160deg,var(--panel),#16121d);border:1px solid var(--line);border-radius:var(--radius);padding:34px}
-        .info-row{display:flex;gap:1rem;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(232,195,122,.12)}
+        .info-card{background:linear-gradient(160deg,#ffffff,#fff2f7);border:1px solid var(--line);border-radius:var(--radius);padding:34px}
+        .info-row{display:flex;gap:1rem;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line)}
         .info-row:last-child{border-bottom:0}
         .info-row .ic{margin:0;width:44px;height:44px}
         .info-row .ic svg{width:22px;height:22px}
@@ -201,12 +202,12 @@
         .cta-band p{color:rgba(255,255,255,.9);margin-bottom:1.6rem}
 
         /* ---------- Footer ---------- */
-        footer{background:#0a080d;border-top:1px solid var(--line);padding:52px 0 30px;color:var(--muted)}
+        footer{background:linear-gradient(160deg,#fdeef5,#e7f7f8);border-top:1px solid var(--line);padding:52px 0 30px;color:var(--muted)}
         .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px;margin-bottom:34px}
         footer h4{color:var(--text);font-family:var(--font-display);margin-bottom:1rem;font-size:1.1rem}
         footer a{display:block;color:var(--muted);padding:.25rem 0}
         footer a:hover{color:var(--gold)}
-        .foot-bottom{border-top:1px solid rgba(232,195,122,.12);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.85rem}
+        .foot-bottom{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.85rem}
 
         /* ---------- Floating WhatsApp ---------- */
         .fab{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 14px 30px -8px rgba(37,211,102,.7);transition:.25s transform}
@@ -677,13 +678,13 @@
         // Dalga dolgu katmanları (salon renk ailesi: turuncu → pembe → mor)
         // [yüzde-y, genlik, frekans, hız, ton(hue), doygunluk, açıklık, opaklık]
         const FILLS = [
-            [0.86, 120, 0.78, 0.000082,  26, 82,  9, 0.52],
-            [0.80,  98, 1.02, 0.000115, 340, 72, 11, 0.44],
-            [0.74,  78, 1.28, 0.000152, 322, 66, 13, 0.37],
-            [0.68,  62, 1.58, 0.000192, 300, 62, 15, 0.30],
-            [0.62,  48, 1.98, 0.000238, 285, 58, 17, 0.24],
-            [0.57,  38, 2.48, 0.000285, 278, 55, 19, 0.18],
-            [0.52,  27, 3.20, 0.000338, 272, 52, 21, 0.13]
+            [0.86, 120, 0.78, 0.000082, 335, 90, 84, 0.60],
+            [0.80,  98, 1.02, 0.000115,  22, 95, 85, 0.46],
+            [0.74,  78, 1.28, 0.000152, 285, 78, 88, 0.42],
+            [0.68,  62, 1.58, 0.000192, 180, 68, 84, 0.40],
+            [0.62,  48, 1.98, 0.000238, 320, 85, 90, 0.30],
+            [0.57,  38, 2.48, 0.000285, 265, 72, 90, 0.24],
+            [0.52,  27, 3.20, 0.000338, 190, 62, 90, 0.18]
         ];
         // İmlece güçlü tepki veren ince çizgiler
         const LINES = [
@@ -709,18 +710,18 @@
             const t = ts;
 
             ctx.clearRect(0, 0, W, H);
-            // koyu zemin
-            ctx.fillStyle = '#0e0c11'; ctx.fillRect(0, 0, W, H);
-            // merkez sıcak parıltı
+            // aydınlık şeker-beyazı zemin
+            ctx.fillStyle = '#fff6fa'; ctx.fillRect(0, 0, W, H);
+            // merkez ferah parıltı (pembe + cam göbeği)
             let g = ctx.createRadialGradient(W/2, H*0.62, 0, W/2, H*0.62, W*0.72);
-            g.addColorStop(0, 'rgba(255,138,92,'+(0.06 + bs*0.14)+')');
-            g.addColorStop(0.42, 'rgba(168,85,247,'+(0.04 + bs*0.08)+')');
+            g.addColorStop(0, 'rgba(255,120,175,'+(0.07 + bs*0.10)+')');
+            g.addColorStop(0.42, 'rgba(60,205,200,'+(0.05 + bs*0.07)+')');
             g.addColorStop(1, 'transparent');
             ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
             // imleci takip eden parıltı
             const gx = W * (rmx + mvx*0.02), gy = H * (rmy + mvy*0.02);
             let g2 = ctx.createRadialGradient(gx, gy, 0, gx, gy, W*(0.42 + dragEnergy*0.18));
-            g2.addColorStop(0, 'rgba(255,106,162,'+(0.05 + bs*0.10 + dragEnergy*0.07)+')');
+            g2.addColorStop(0, 'rgba(255,92,157,'+(0.06 + bs*0.10 + dragEnergy*0.08)+')');
             g2.addColorStop(1, 'transparent');
             ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
 
@@ -741,7 +742,7 @@
                     x===0 ? ctx.moveTo(0,y) : ctx.lineTo(x,y);
                 }
                 ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
-                ctx.fillStyle = 'hsla('+hue+','+sat+'%,'+(lit + bs*15)+'%,'+(op + bs*0.1)+')';
+                ctx.fillStyle = 'hsla('+hue+','+sat+'%,'+(lit - bs*8)+'%,'+(op + bs*0.08)+')';
                 ctx.fill();
             });
 
@@ -765,7 +766,7 @@
                     x===0 ? ctx.moveTo(0,y) : ctx.lineTo(x,y);
                 }
                 const prox = Math.exp(-Math.abs(rmy-yc)*3)*0.4;
-                ctx.strokeStyle = 'rgba(246,222,205,'+((op+prox)*(0.4+0.5*bs))+')';
+                ctx.strokeStyle = 'rgba(150,72,120,'+((op+prox)*(0.34+0.42*bs))+')';
                 ctx.lineWidth = w*(1 + prox*1.5);
                 ctx.stroke();
             });
